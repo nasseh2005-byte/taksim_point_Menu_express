@@ -60,7 +60,6 @@
             -webkit-mask-image: linear-gradient(to right, transparent 0%, black 20%);
         }
         
-        /* تظليل قوي لضمان قراءة النص بوضوح على الجوال */
         .pdf-overlay { 
             position: absolute; inset: 0; z-index: 10; pointer-events: none; 
             background: linear-gradient(to right, rgba(8,8,8, 0.98) 50%, rgba(8,8,8, 0.8) 70%, transparent 100%); 
@@ -84,15 +83,15 @@
         </div>
         
         <div class="flex items-center gap-2">
-            <button @click="showSearchModal = true" class="p-1 border border-[var(--border-color)] rounded text-brand-gold hover:bg-[var(--white-gold)] hover:text-black transition">
+            <button @click="showSearchModal = true" class="p-1 border border-[var(--border-color)] rounded text-brand-gold hover:bg-[var(--white-gold)] hover:text-black transition shadow-sm">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             </button>
 
-            <button @click="showQRModal = true" class="p-1 border border-[var(--border-color)] rounded text-brand-gold hover:bg-[var(--white-gold)] hover:text-black transition">
+            <button @click="showQRModal = true" class="p-1 border border-[var(--border-color)] rounded text-brand-gold hover:bg-[var(--white-gold)] hover:text-black transition shadow-sm">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
             </button>
             
-            <div class="flex items-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded px-1 py-0.5 shadow-sm">
+            <div class="flex items-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded px-1.5 py-0.5 shadow-sm">
                 <span class="text-xs mr-1">🌍</span>
                 <select x-model="currentLang" @change="changeLanguage()" class="bg-transparent text-brand-gold text-[10px] outline-none font-bold cursor-pointer">
                     <template x-for="(url, code) in langLinks" :key="code">
@@ -116,7 +115,7 @@
                     <template x-for="cat in normalCategories" :key="cat">
                         <button @click="showSearchModal = false; scrollToCat(cat)" class="theme-card rounded-xl p-4 flex flex-col items-center gap-2 hover:border-[var(--white-gold)] transition">
                             <span class="text-3xl" x-text="getCatEmoji(cat)"></span>
-                            <span class="text-[10px] font-bold text-center leading-tight text-brand-gold" x-text="cat"></span>
+                            <span class="text-[10px] font-black text-center leading-tight text-brand-gold" x-text="cat"></span>
                         </button>
                     </template>
                 </div>
@@ -142,12 +141,12 @@
 
     <div x-show="showQRModal" x-cloak class="fixed inset-0 z-[200] bg-black/90 flex flex-col items-center justify-center p-6 backdrop-blur-md">
         <button @click="showQRModal = false" class="absolute top-6 right-6 text-white text-3xl font-black">✕</button>
-        <div class="theme-card border-[var(--border-color)] p-8 rounded-2xl flex flex-col items-center shadow-[0_0_40px_rgba(232,217,182,0.1)]">
-            <h2 class="font-black text-xl mb-1 text-center text-brand-gold">Taksim Point Express</h2>
+        <div class="theme-card border-[var(--border-color)] p-8 rounded-2xl flex flex-col items-center shadow-2xl">
+            <h2 class="font-black text-xl mb-1 text-center text-brand-gold">Taksim Express إكسبريس</h2>
             <div class="bg-white p-3 rounded-xl mb-6">
                 <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(window.location.href)" class="w-48 h-48">
             </div>
-            <button @click="copyBranchUrl()" class="w-full bg-[var(--white-gold)] text-black font-black py-3 rounded-lg flex items-center justify-center gap-2">🔗 نسخ رابط إكسبريس</button>
+            <button @click="copyBranchUrl()" class="w-full bg-gradient-to-r from-[var(--white-gold)] to-[#B38728] text-black font-black py-3 rounded-lg flex items-center justify-center gap-2">🔗 نسخ رابط المنيو</button>
         </div>
     </div>
 
@@ -160,10 +159,10 @@
         <section class="px-6 mb-12 text-center">
             <img src="https://cdn.phototourl.com/free/2026-04-06-d0b6c388-fcdf-40fd-a7dc-56a84b8309a2.png" class="h-20 mx-auto mb-6 object-contain">
             <h1 class="text-2xl font-black mb-4 text-center text-brand-gold">تقسيم بوينت إكسبريس</h1>
-            <p class="text-sm text-brand-gold opacity-90 leading-relaxed text-justify px-2 mb-4 font-semibold">نقدم لكم أسرع وألذ تجربة للمشويات التركية بجودة تقسيم بوينت المعهودة، صُمم هذا الفرع لخدمتكم بسرعة ودقة.</p>
+            <p class="text-sm text-brand-gold opacity-90 leading-relaxed text-justify px-2 mb-4 font-semibold">استمتع بوجبتك المفضلة بسرعة فائقة وجودة استثنائية في فرع إكسبريس الجديد.</p>
         </section>
 
-        <section class="relative h-[30vh] w-full mb-12 px-4">
+        <section class="relative h-[35vh] w-full mb-12 px-4">
             <div class="slider-container h-full no-scrollbar rounded-xl shadow-2xl" id="hero-slider">
                 <template x-for="(item, index) in heroOffers" :key="item.id">
                     <div class="slide relative h-full theme-card rounded-xl overflow-hidden" :id="'hero-slide-' + index">
@@ -181,7 +180,7 @@
         </section>
 
         <section class="px-6 mb-10">
-            <h3 class="text-lg font-black mb-4 text-center text-brand-gold">موقع فرع إكسبريس</h3>
+            <h3 class="text-lg font-black mb-4 text-center text-brand-gold">موقعنا</h3>
             <div class="overflow-hidden rounded-2xl shadow-xl border border-[var(--border-color)]">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d237390.7503461374!2d39.41345214843751!3d21.615940981653758!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15c3db004673f109%3A0xa40a38ea0b786d88!2z2YXYt9i52YUg2KrZgtiz2YrZhSDYqNmI2YrZhtiqIHwgVGFrc2ltcG9pbnQgcmVzdGF1cmFudHM!5e0!3m2!1sar!2ssa!4v1776364267628!5m2!1sar!2ssa" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
@@ -201,9 +200,9 @@
         </section>
     </div>
 
-    <div x-show="view === 'menu'" class="min-h-screen pt-20 pb-32">
+    <div x-show="view === 'menu'" class="min-h-screen pt-20 pb-32" x-cloak>
         <div class="fixed top-[65px] left-0 w-full z-40 transition-transform duration-300" :class="showCatBar ? 'translate-y-0' : '-translate-y-full'">
-            <div class="flex gap-2 overflow-x-auto no-scrollbar px-4 py-2 glass-nav border-b border-[var(--border-color)] shadow-md">
+            <div class="flex gap-2 overflow-x-auto no-scrollbar px-4 py-2 glass-nav border-b border-[var(--border-color)]">
                 <template x-for="cat in normalCategories" :key="cat">
                     <button @click="scrollToCat(cat)" class="px-4 py-2 text-xs font-black whitespace-nowrap text-brand-gold opacity-70 hover:opacity-100 transition" x-text="cat"></button>
                 </template>
@@ -223,12 +222,12 @@
                             <template x-for="item in getCatItems(cat)" :key="item.id">
                                 <div class="flex flex-col relative theme-card rounded-lg p-3 border border-[var(--border-color)]/50 backdrop-blur-sm">
                                     <div class="flex items-end w-full mb-1.5 gap-1">
-                                        <h4 class="font-bold text-sm md:text-base text-brand-gold" x-text="item.name"></h4>
+                                        <h4 class="font-bold text-sm md:text-base leading-tight text-brand-gold max-w-[70%]" x-text="item.name"></h4>
                                         <div class="flex-1 border-b-2 border-dotted border-[var(--white-gold)]/40 relative top-[-4px] min-w-[10px]"></div>
-                                        <span class="text-brand-gold font-black text-sm" x-text="item.price + ' SR'"></span>
+                                        <span class="text-brand-gold font-black text-sm md:text-base whitespace-nowrap" x-text="item.price + ' SR'"></span>
                                     </div>
                                     <div class="flex justify-between items-start gap-2">
-                                        <p class="text-[11px] md:text-xs text-brand-gold opacity-80 font-bold line-clamp-2" x-text="item.description"></p>
+                                        <p class="text-[11px] md:text-xs text-brand-gold opacity-80 font-bold line-clamp-2 flex-1 pr-1" x-text="item.description"></p>
                                         <button @click="toggleLike(item)" class="p-1 glass-nav rounded-full border border-[var(--border-color)]">
                                             <span x-text="isLiked(item.id) ? '❤️' : '🤍'" class="text-[10px]"></span>
                                         </button>
@@ -254,7 +253,7 @@
                             <h4 class="font-black text-sm text-brand-gold" x-text="item.name"></h4>
                             <span class="text-[var(--white-gold)] text-xs font-black" x-text="item.price + ' SR'"></span>
                         </div>
-                        <button @click="toggleLike(item)" class="text-red-500 bg-red-500/10 px-3 py-2 rounded text-xs font-bold border border-red-500/20">حذف</button>
+                        <button @click="toggleLike(item)" class="text-red-500 bg-red-500/10 px-3 py-2 rounded text-xs font-bold border border-red-500/20 active:scale-95 transition">حذف</button>
                     </div>
                     <div class="flex justify-between items-center px-2 pt-2 border-t border-[var(--border-color)]">
                         <span class="text-xs text-brand-gold opacity-90 font-black">الكمية:</span>
@@ -268,7 +267,28 @@
             </template>
         </div>
 
-        <button x-show="likes.length > 0" @click="showInvoiceModal = true" class="w-full bg-[var(--white-gold)] text-black font-black py-4 rounded-xl text-lg shadow-xl">إظهار كفاتورة</button>
+        <button x-show="likes.length > 0" @click="showInvoiceModal = true" class="w-full bg-gradient-to-r from-[var(--white-gold)] to-[#B38728] text-black font-black py-4 rounded-xl text-lg shadow-xl">إظهار كفاتورة</button>
+    </div>
+
+    <div x-show="showInvoiceModal" x-transition x-cloak class="fixed inset-0 z-[300] bg-black/80 flex flex-col items-center justify-center p-4 backdrop-blur-md">
+        <div class="theme-card w-full max-w-md rounded-2xl overflow-hidden shadow-2xl relative border border-[var(--border-color)] flex flex-col max-h-[85vh]">
+            <img src="https://cdn.phototourl.com/free/2026-04-06-d0b6c388-fcdf-40fd-a7dc-56a84b8309a2.png" class="watermark">
+            <div class="p-5 border-b border-[var(--border-color)] flex justify-between items-center relative z-10 glass-nav">
+                <h2 class="font-black text-xl text-brand-gold">فاتورة الطلب</h2>
+                <button @click="showInvoiceModal = false" class="text-[var(--white-gold)] opacity-70 text-2xl">✕</button>
+            </div>
+            <div class="p-5 overflow-y-auto relative z-10 flex-1">
+                <template x-for="item in likedItemsList" :key="item.id">
+                    <div class="flex justify-between items-center border-b border-[var(--border-color)] border-dashed py-3 last:border-0">
+                        <div class="flex-1 pr-2">
+                            <h4 class="font-black text-sm text-[var(--text-main)]" x-text="item.name"></h4>
+                            <span class="text-[10px] text-brand-gold opacity-80 mt-1 font-bold" x-text="'الكمية: ' + (quantities[item.id] || 1)"></span>
+                        </div>
+                        <div class="font-black text-[var(--white-gold)] text-sm" x-text="((parseFloat(item.price)||0) * (quantities[item.id] || 1)) + ' SR'"></div>
+                    </div>
+                </template>
+            </div>
+        </div>
     </div>
 
     <div class="fixed bottom-0 w-full glass-nav px-4 py-3 z-[150]">
@@ -292,31 +312,34 @@
     <script>
         function taksimApp() {
             return {
-                isLoading: true, view: 'home', currentLang: 'ar', currentBranch: 'express',
-                showSearchModal: false, showQRModal: false, searchQuery: '', showCatBar: true, lastScroll: 0,
+                isLoading: true, view: 'home', currentLang: 'ar', 
+                showSearchModal: false, showQRModal: false, showInvoiceModal: false, searchQuery: '',        
+                showCatBar: true, lastScroll: 0,
                 allRawData: [], activeMenuItems: [], heroOffers: [], categoryBgs: {}, likes: [], quantities: {},
+                targetHeroIds: ['TP-116', 'TP-185', 'TP-186', 'TP-003', 'TP-004'],
+
                 langNames: { 
                     ar: 'ar العربية', en: 'en English', tr: 'tr Türkçe', es: 'es Español', ru: 'ru Русский', 
                     ur: 'ur اردو', hi: 'hi हिन्दी', fr: 'fr Français', de: 'de Deutsch', zh: 'zh 中文', 
                     ja: 'ja 日本語', ko: 'ko 한국어', it: 'it Italiano', vi: 'vi Tiếng Việt', th: 'th ไทย', id: 'id Indonesia' 
                 },
                 langLinks: {
-                    ar: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSVNQZ9He56FI0mC4d1sODaF45FLXpqLova9aBVgQHFzzFzNiwJP_F1BSDBntCI6s5iaz37aGlK2Q3F/pub?gid=2026156602&single=true&output=csv',
-                    en: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSVNQZ9He56FI0mC4d1sODaF45FLXpqLova9aBVgQHFzzFzNiwJP_F1BSDBntCI6s5iaz37aGlK2Q3F/pub?gid=1709873212&single=true&output=csv',
-                    tr: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSVNQZ9He56FI0mC4d1sODaF45FLXpqLova9aBVgQHFzzFzNiwJP_F1BSDBntCI6s5iaz37aGlK2Q3F/pub?gid=932024028&single=true&output=csv',
-                    es: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSVNQZ9He56FI0mC4d1sODaF45FLXpqLova9aBVgQHFzzFzNiwJP_F1BSDBntCI6s5iaz37aGlK2Q3F/pub?gid=2126154876&single=true&output=csv',
-                    ru: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSVNQZ9He56FI0mC4d1sODaF45FLXpqLova9aBVgQHFzzFzNiwJP_F1BSDBntCI6s5iaz37aGlK2Q3F/pub?gid=1383179966&single=true&output=csv',
-                    ur: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSVNQZ9He56FI0mC4d1sODaF45FLXpqLova9aBVgQHFzzFzNiwJP_F1BSDBntCI6s5iaz37aGlK2Q3F/pub?gid=1356221249&single=true&output=csv',
-                    hi: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSVNQZ9He56FI0mC4d1sODaF45FLXpqLova9aBVgQHFzzFzNiwJP_F1BSDBntCI6s5iaz37aGlK2Q3F/pub?gid=1947060246&single=true&output=csv',
-                    fr: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSVNQZ9He56FI0mC4d1sODaF45FLXpqLova9aBVgQHFzzFzNiwJP_F1BSDBntCI6s5iaz37aGlK2Q3F/pub?gid=1967929524&single=true&output=csv',
-                    de: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSVNQZ9He56FI0mC4d1sODaF45FLXpqLova9aBVgQHFzzFzNiwJP_F1BSDBntCI6s5iaz37aGlK2Q3F/pub?gid=330421505&single=true&output=csv',
-                    zh: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSVNQZ9He56FI0mC4d1sODaF45FLXpqLova9aBVgQHFzzFzNiwJP_F1BSDBntCI6s5iaz37aGlK2Q3F/pub?gid=597359201&single=true&output=csv',
-                    ja: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSVNQZ9He56FI0mC4d1sODaF45FLXpqLova9aBVgQHFzzFzNiwJP_F1BSDBntCI6s5iaz37aGlK2Q3F/pub?gid=1140262731&single=true&output=csv',
-                    ko: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSVNQZ9He56FI0mC4d1sODaF45FLXpqLova9aBVgQHFzzFzNiwJP_F1BSDBntCI6s5iaz37aGlK2Q3F/pub?gid=961009172&single=true&output=csv',
-                    it: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSVNQZ9He56FI0mC4d1sODaF45FLXpqLova9aBVgQHFzzFzNiwJP_F1BSDBntCI6s5iaz37aGlK2Q3F/pub?gid=1885756520&single=true&output=csv',
-                    vi: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSVNQZ9He56FI0mC4d1sODaF45FLXpqLova9aBVgQHFzzFzNiwJP_F1BSDBntCI6s5iaz37aGlK2Q3F/pub?gid=37768217&single=true&output=csv',
-                    th: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSVNQZ9He56FI0mC4d1sODaF45FLXpqLova9aBVgQHFzzFzNiwJP_F1BSDBntCI6s5iaz37aGlK2Q3F/pub?gid=369450170&single=true&output=csv',
-                    id: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSVNQZ9He56FI0mC4d1sODaF45FLXpqLova9aBVgQHFzzFzNiwJP_F1BSDBntCI6s5iaz37aGlK2Q3F/pub?gid=1467238039&single=true&output=csv'
+                    ar: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3syi5ByAM_3YcD90-G7lkDeiLBgvDguVAJxJS3uk1chvCvG-UcbvAnfE4hd4govH8BUrPGFTY7Qz1/pub?gid=2026156602&single=true&output=csv',
+                    en: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3syi5ByAM_3YcD90-G7lkDeiLBgvDguVAJxJS3uk1chvCvG-UcbvAnfE4hd4govH8BUrPGFTY7Qz1/pub?gid=1709873212&single=true&output=csv',
+                    tr: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3syi5ByAM_3YcD90-G7lkDeiLBgvDguVAJxJS3uk1chvCvG-UcbvAnfE4hd4govH8BUrPGFTY7Qz1/pub?gid=932024028&single=true&output=csv',
+                    es: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3syi5ByAM_3YcD90-G7lkDeiLBgvDguVAJxJS3uk1chvCvG-UcbvAnfE4hd4govH8BUrPGFTY7Qz1/pub?gid=2126154876&single=true&output=csv',
+                    ru: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3syi5ByAM_3YcD90-G7lkDeiLBgvDguVAJxJS3uk1chvCvG-UcbvAnfE4hd4govH8BUrPGFTY7Qz1/pub?gid=1383179966&single=true&output=csv',
+                    ur: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3syi5ByAM_3YcD90-G7lkDeiLBgvDguVAJxJS3uk1chvCvG-UcbvAnfE4hd4govH8BUrPGFTY7Qz1/pub?gid=1356221249&single=true&output=csv',
+                    hi: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3syi5ByAM_3YcD90-G7lkDeiLBgvDguVAJxJS3uk1chvCvG-UcbvAnfE4hd4govH8BUrPGFTY7Qz1/pub?gid=1947060246&single=true&output=csv',
+                    fr: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3syi5ByAM_3YcD90-G7lkDeiLBgvDguVAJxJS3uk1chvCvG-UcbvAnfE4hd4govH8BUrPGFTY7Qz1/pub?gid=1967929524&single=true&output=csv',
+                    de: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3syi5ByAM_3YcD90-G7lkDeiLBgvDguVAJxJS3uk1chvCvG-UcbvAnfE4hd4govH8BUrPGFTY7Qz1/pub?gid=330421505&single=true&output=csv',
+                    zh: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3syi5ByAM_3YcD90-G7lkDeiLBgvDguVAJxJS3uk1chvCvG-UcbvAnfE4hd4govH8BUrPGFTY7Qz1/pub?gid=597359201&single=true&output=csv',
+                    ja: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3syi5ByAM_3YcD90-G7lkDeiLBgvDguVAJxJS3uk1chvCvG-UcbvAnfE4hd4govH8BUrPGFTY7Qz1/pub?gid=1140262731&single=true&output=csv',
+                    ko: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3syi5ByAM_3YcD90-G7lkDeiLBgvDguVAJxJS3uk1chvCvG-UcbvAnfE4hd4govH8BUrPGFTY7Qz1/pub?gid=961009172&single=true&output=csv',
+                    it: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3syi5ByAM_3YcD90-G7lkDeiLBgvDguVAJxJS3uk1chvCvG-UcbvAnfE4hd4govH8BUrPGFTY7Qz1/pub?gid=1885756520&single=true&output=csv',
+                    vi: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3syi5ByAM_3YcD90-G7lkDeiLBgvDguVAJxJS3uk1chvCvG-UcbvAnfE4hd4govH8BUrPGFTY7Qz1/pub?gid=37768217&single=true&output=csv',
+                    th: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3syi5ByAM_3YcD90-G7lkDeiLBgvDguVAJxJS3uk1chvCvG-UcbvAnfE4hd4govH8BUrPGFTY7Qz1/pub?gid=369450170&single=true&output=csv',
+                    id: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS3syi5ByAM_3YcD90-G7lkDeiLBgvDguVAJxJS3uk1chvCvG-UcbvAnfE4hd4govH8BUrPGFTY7Qz1/pub?gid=1467238039&single=true&output=csv'
                 },
 
                 get isRTL() { return ['ar', 'ur'].includes(this.currentLang); },
@@ -395,22 +418,16 @@
                         this.likes.push(item.id); 
                         this.quantities[item.id] = 1; 
                     }
-                    localStorage.setItem('express_likes', JSON.stringify(this.likes));
-                    localStorage.setItem('express_qty', JSON.stringify(this.quantities));
+                    localStorage.setItem('express_likes_v2', JSON.stringify(this.likes));
                 },
                 isLiked(id) { return this.likes.includes(id); },
-                updateQty(id, d) { 
-                    this.quantities[id] = Math.max(1, (this.quantities[id] || 1) + d); 
-                    localStorage.setItem('express_qty', JSON.stringify(this.quantities));
-                },
+                updateQty(id, d) { this.quantities[id] = Math.max(1, (this.quantities[id] || 1) + d); },
                 get likedItemsList() { return this.likes.map(id => this.allRawData.find(i => i.id === id)).filter(Boolean); },
                 copyBranchUrl() { navigator.clipboard.writeText(window.location.origin).then(() => alert('تم النسخ!')); },
 
                 initApp() { 
-                    const saved = localStorage.getItem('express_likes');
+                    const saved = localStorage.getItem('express_likes_v2');
                     if(saved) this.likes = JSON.parse(saved);
-                    const savedQ = localStorage.getItem('express_qty');
-                    if(savedQ) this.quantities = JSON.parse(savedQ);
                     this.changeLanguage(); 
                 }
             }
