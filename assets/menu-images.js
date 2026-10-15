@@ -125,13 +125,73 @@
             const response = await fetch(url + '&t=' + Date.now(), { cache: 'no-store', signal: AbortSignal.timeout(20000) });
             if (!response.ok) throw new Error('Image source unavailable');
             const rows = Papa.parse(await response.text(), { header: false, skipEmptyLines: true }).data.slice(1);
-            return new Map(rows.filter(row => /^TP-\d+$/.test(String(row[0] || '').trim()))
+            const images = new Map(rows.filter(row => /^TP-\d+$/.test(String(row[0] || '').trim()))
                 .map(row => [String(row[0]).trim(), String(row[6] || '').trim()]));
+            images.categories = new Map(rows.map(row => [String(row[0] || '').trim(), String(row[1] || '').trim()]));
+            return images;
         } catch (error) {
             console.warn('Could not refresh menu image references', error);
             return new Map();
         }
     }
 
-    window.TaksimImages = { resolve, onError, masterImages, logo };
+
+    function hasFoodPhoto(value) {
+        const source = String(value ?? '').trim();
+        return !!source && resolve(source) !== logo &&
+            !/\/(?:preview)(?:[?#]|$)|\.(?:mp4|webm|mov)(?:[?#]|$)/i.test(source);
+    }
+
+    function categoryKey(value) {
+        return String(value ?? '').normalize('NFKC').toLowerCase()
+            .replace(/[أإآ]/g, 'ا').replace(/ى/g, 'ي')
+            .replace(/[\s\p{P}\p{M}]/gu, '');
+    }
+
+    function categoryPhotos(category, rows, backgrounds) {
+        const key = categoryKey(category);
+        const baseKeys = new Set(rows.filter(item => categoryKey(item.category) === key).map(item => categoryKey(item.baseCategory)).filter(Boolean));
+        const images = [];
+        const add = value => {
+            if (!hasFoodPhoto(value)) return;
+            const image = resolve(value);
+            if (!images.includes(image)) images.push(image);
+        };
+        add(backgrounds[category]);
+        for (const item of rows) {
+            const number = Number(String(item.id).replace('TP-', ''));
+            if (number >= 250 && number <= 400 && (categoryKey(item.category) === key || baseKeys.has(categoryKey(item.baseCategory)))) add(item.image);
+        }
+        return images;
+    }
+
+    function foodHero(items, categories, rows, backgrounds, targets) {
+        const selected = [], used = new Set();
+        const add = item => {
+            if (!hasFoodPhoto(item.image)) return;
+            const image = resolve(item.image);
+            if (used.has(image)) return;
+            used.add(image);
+            selected.push({ ...item, image });
+        };
+        items.filter(item => targets.includes(item.id)).forEach(add);
+        items.forEach(add);
+        const priority = ['menu-294.webp', 'menu-296.webp', 'menu-297.webp', 'menu-285.webp', 'menu-284.webp'];
+        const covers = categories.map(category => ({
+            id: 'food-category-' + category, category, name: category,
+            image: categoryPhotos(category, rows, backgrounds)[0], price: '', isCategory: true
+        }));
+        covers.sort((a, b) => {
+            const rank = item => {
+                const index = priority.findIndex(filename => item.image?.endsWith('/' + filename));
+                return index < 0 ? priority.length : index;
+            };
+            return rank(a) - rank(b);
+        });
+        covers.forEach(add);
+        return selected.slice(0, 5);
+    }
+
+
+    window.TaksimImages = { resolve, onError, masterImages, logo, hasFoodPhoto, categoryPhotos, foodHero };
 })();
