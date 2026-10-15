@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Taksim Point | إكسبريس</title>
-    <link rel="icon" type="image/png" href="https://cdn.phototourl.com/free/2026-04-06-d0b6c388-fcdf-40fd-a7dc-56a84b8309a2.png">
+    <link rel="icon" type="image/jpeg" href="/assets/menu/logo.jpg">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/assets/menu-images.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&family=Montserrat:wght@400;500;600;700;900&display=swap" rel="stylesheet">
@@ -30,6 +31,7 @@
         .drive-iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         .most-requested-btn { background: linear-gradient(to right, #D4AF37, #B38728); color: #000; font-weight: 900; font-size: 10px; padding: 4px 10px; border-radius: 6px; display: flex; align-items: center; gap: 4px; animation: pulse-gold 2s infinite; }
         @keyframes pulse-gold { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
+        img[src$="/menu/logo.jpg"] { object-fit: contain; transform: none; }
     </style>
 </head>
 <body class="overflow-x-hidden relative" :dir="isRTL ? 'rtl' : 'ltr'" x-init="initApp()" @scroll.window="handleScroll()">
@@ -39,7 +41,7 @@
 
     <nav class="fixed top-0 w-full z-[100] glass-nav px-3 py-3 flex justify-between items-center" x-show="view !== 'explore'">
         <div class="flex items-center gap-2">
-            <img src="https://cdn.phototourl.com/free/2026-04-06-d0b6c388-fcdf-40fd-a7dc-56a84b8309a2.png" alt="Taksim" class="h-8 object-contain">
+            <img @error="handleMenuImageError($event)" src="/assets/menu/logo.jpg" alt="Taksim" class="h-8 object-contain">
             <span class="text-[9px] font-black text-brand-gold bg-white/5 px-2 py-1 rounded border border-[var(--border-color)]">Taksim Point Express</span>
         </div>
         <div class="flex items-center gap-1.5">
@@ -67,7 +69,7 @@
             <div x-show="searchQuery.trim() !== ''" class="flex flex-col gap-3">
                 <template x-for="item in searchResults" :key="item.id">
                     <div class="theme-card rounded-xl p-3 flex gap-3 items-center">
-                        <img :src="item.image" class="w-16 h-16 rounded-lg object-cover border border-[var(--border-color)]">
+                        <img @error="handleMenuImageError($event)" :src="menuImage(item.image)" class="w-16 h-16 rounded-lg object-cover border border-[var(--border-color)]">
                         <div class="flex-1"><h4 class="text-[14px] font-black text-brand-gold" x-text="item.name"></h4><span class="font-black text-xs text-brand-gold" x-text="item.price + ' SR'"></span></div>
                         <button @click="toggleLike(item)" class="p-3 glass-nav rounded-full border border-[var(--border-color)] active:scale-90 transition"><span x-text="isLiked(item.id) ? '❤️' : '🤍'"></span></button>
                     </div>
@@ -77,13 +79,13 @@
     </div>
 
     <div x-show="isLoading" class="fixed inset-0 z-[200] bg-[var(--bg-main)] flex flex-col items-center justify-center">
-        <img src="https://cdn.phototourl.com/free/2026-04-06-d0b6c388-fcdf-40fd-a7dc-56a84b8309a2.png" class="h-20 mb-6 animate-pulse">
+        <img @error="handleMenuImageError($event)" src="/assets/menu/logo.jpg" class="h-20 mb-6 animate-pulse">
         <div class="text-brand-gold text-sm font-black tracking-widest uppercase">Taksim Point Express...</div>
     </div>
 
     <div x-show="view === 'home' && !isLoading" class="pb-32 pt-24">
         <section class="px-6 mb-8 text-center">
-            <img src="https://cdn.phototourl.com/free/2026-04-06-d0b6c388-fcdf-40fd-a7dc-56a84b8309a2.png" class="h-20 mx-auto mb-6 object-contain">
+            <img @error="handleMenuImageError($event)" src="/assets/menu/logo.jpg" class="h-20 mx-auto mb-6 object-contain">
             <h1 class="text-2xl font-black mb-4 text-brand-gold tracking-wide">إكسبريس | Express</h1>
             <p class="text-sm text-brand-gold opacity-90 leading-relaxed font-medium">أسرع تجربة طعام بجودة تقسيم بوينت المعهودة.</p>
         </section>
@@ -92,7 +94,7 @@
             <div class="slider-container h-full no-scrollbar rounded-xl shadow-2xl border border-[var(--border-color)]" id="hero-slider">
                 <template x-for="(item, index) in heroOffers" :key="item.id">
                     <div class="slide relative h-full theme-card rounded-xl overflow-hidden">
-                        <img :src="item.image" loading="lazy" class="w-full h-full object-cover opacity-90">
+                        <img @error="handleMenuImageError($event)" :src="menuImage(item.image)" loading="lazy" class="w-full h-full object-cover opacity-90">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-5">
                             <h2 class="text-xl font-black mb-1 text-brand-gold drop-shadow-md tracking-wide" x-text="item.name"></h2>
                             <div class="flex justify-between items-center"><span class="text-lg font-black text-[var(--white-gold)] drop-shadow" x-text="item.price + ' SR'"></span><button @click="playSound('click'); scrollToCat(item.category)" class="bg-[var(--white-gold)] text-black px-4 py-1.5 text-[11px] font-black rounded shadow-lg active:scale-95 transition">اطلب الآن</button></div>
@@ -119,7 +121,7 @@
             <div class="grid grid-cols-2 gap-3">
                 <template x-for="cat in normalCategories" :key="cat">
                     <button @click="playSound('click'); scrollToCat(cat)" class="cat-box theme-card relative h-28 rounded-xl overflow-hidden flex items-center justify-center border active:scale-95 transition">
-                        <img :src="getCategoryBg(cat)" class="absolute inset-0 w-full h-full opacity-50 object-cover mirror-img">
+                        <img @error="handleMenuImageError($event)" :src="getCategoryBg(cat)" class="absolute inset-0 w-full h-full opacity-50 object-cover mirror-img">
                         <div class="absolute inset-0 bg-black/50"></div>
                         <span class="relative z-10 font-black text-sm tracking-wide text-center px-2 text-brand-gold" x-text="cat"></span>
                     </button>
@@ -140,7 +142,7 @@
             <template x-for="cat in normalCategories" :key="cat">
                 <div class="category-container scroll-mt-[130px]" :id="'cat-' + btoa(unescape(encodeURIComponent(cat))).replace(/=/g, '')">
                     <div class="category-banner border-b border-[var(--border-color)]">
-                        <img :src="getCategoryBg(cat)" class="mirror-img" loading="lazy">
+                        <img @error="handleMenuImageError($event)" :src="getCategoryBg(cat)" class="mirror-img" loading="lazy">
                         <div class="category-banner-overlay"></div>
                         <div class="category-title-wrapper border-r-4 pr-3 border-[var(--gold)] drop-shadow-xl"><h2 class="text-3xl font-black tracking-wide text-brand-gold drop-shadow-md" x-text="cat"></h2></div>
                     </div>
@@ -236,6 +238,8 @@
                     id: 'https://docs.google.com/spreadsheets/d/1ZgAAofFQ4Hf45SyIVKGFNGvfQIdFlS1ebEnCI6Zbfys/export?format=csv&gid=1467238039'
                 },
 
+                menuImage(value) { return window.TaksimImages.resolve(value); },
+                handleMenuImageError(event) { window.TaksimImages.onError(event); },
                 get isRTL() { return ['ar', 'ur'].includes(this.currentLang); },
                 handleScroll() { this.showCatBar = window.pageYOffset <= this.lastScroll; this.lastScroll = window.pageYOffset; },
                 playSound(type) { const audio = document.getElementById(type === 'pop' ? 'pop-sfx' : 'click-sfx'); if(audio) { audio.currentTime = 0; audio.volume = 0.4; audio.play().catch(()=>{}); } },
@@ -243,7 +247,11 @@
                 async changeLanguage() {
                     this.isLoading = true;
                     try {
-                        const res = await fetch(this.langLinks[this.currentLang] + '&t=' + Date.now());
+                        const [res, masterImages] = await Promise.all([
+                            fetch(this.langLinks[this.currentLang] + '&t=' + Date.now(), { cache: 'no-store' }),
+                            this.currentLang === 'ar' ? Promise.resolve(null) : window.TaksimImages.masterImages(this.langLinks.ar)
+                        ]);
+                        if (!res.ok) throw new Error('Menu data unavailable');
                         const text = await res.text();
                         Papa.parse(text, {
                             header: false, skipEmptyLines: true,
@@ -252,8 +260,8 @@
                                 this.categoryBgs = {};
                                 this.allRawData = rows.map(cols => {
                                     let id = (cols[0] || '').trim(); let cat = (cols[1] || '').trim();
-                                    if(parseInt(id.replace('TP-','')) >= 250 && parseInt(id.replace('TP-','')) <= 400) this.categoryBgs[cat] = (cols[6] || '').trim();
-                                    return { id: id, category: cat, name: (cols[2] || '').trim(), price: (cols[3] || '').trim(), description: (cols[5] || '').trim(), image: (cols[6] || '').trim(), available: cols.some(c => c && c.trim() === 'غير متوفر') ? 'غير متوفر' : 'متوفر' }
+                                    if(parseInt(id.replace('TP-','')) >= 250 && parseInt(id.replace('TP-','')) <= 400) this.categoryBgs[cat] = (masterImages?.get(id) ?? cols[6] ?? '').trim();
+                                    return { id: id, category: cat, name: (cols[2] || '').trim(), price: (cols[3] || '').trim(), description: (cols[5] || '').trim(), image: (masterImages?.get(id) ?? cols[6] ?? '').trim(), available: cols.some(c => c && c.trim() === 'غير متوفر') ? 'غير متوفر' : 'متوفر' }
                                 }).filter(i => i.id.startsWith('TP-'));
                                 this.activeMenuItems = this.allRawData.filter(i => i.available !== 'غير متوفر' && (parseInt(i.id.replace('TP-','')) < 250 || parseInt(i.id.replace('TP-','')) > 400));
                                 this.heroOffers = this.activeMenuItems.filter(i => this.targetHeroIds.includes(i.id));
@@ -268,7 +276,7 @@
                 },
                 get normalCategories() { return [...new Set(this.activeMenuItems.map(i => i.category))].filter(c => c && !['الاستكشاف', 'Explore'].includes(c)); },
                 getCatItems(cat) { return this.activeMenuItems.filter(i => i.category === cat); },
-                getCategoryBg(cat) { return this.categoryBgs[cat] || ''; },
+                getCategoryBg(cat) { return this.categoryBgs[cat] ? this.menuImage(this.categoryBgs[cat]) : ''; },
                 get searchResults() { const q = this.searchQuery.toLowerCase(); return q ? this.activeMenuItems.filter(i => i.name.toLowerCase().includes(q)) : []; },
                 scrollToMostRequested() { this.view = 'menu'; this.$nextTick(() => { setTimeout(() => { let targetCat = this.normalCategories.find(c => c.includes('برجر') || c.includes('لحم') || c.toLowerCase().includes('burger') || c.toLowerCase().includes('meat')); if(targetCat) { const el = document.getElementById('cat-' + btoa(unescape(encodeURIComponent(targetCat))).replace(/=/g, '')); if(el) window.scrollTo({ top: el.offsetTop - 110, behavior: 'smooth' }); } }, 300); }); },
                 scrollToCat(catName) { this.view = 'menu'; this.showSearchModal = false; this.$nextTick(() => { setTimeout(() => { const el = document.getElementById('cat-' + btoa(unescape(encodeURIComponent(catName))).replace(/=/g, '')); if(el) window.scrollTo({ top: el.offsetTop - 110, behavior: 'smooth' }); }, 200); }); },
